@@ -22,7 +22,7 @@ const userNameValidationSchema = Joi.object({
     address: Joi.string().required(),
   });
   
-  const studentValidationSchema = Joi.object({
+  const createStudentValidationSchema = Joi.object({
     id: Joi.string().required(),
     name: userNameValidationSchema.required(),
     gender: Joi.string().valid('male', 'female').required(),
@@ -40,4 +40,4 @@ const userNameValidationSchema = Joi.object({
   });
 
 
-  export default studentValidationSchema;
+  export default createStudentValidationSchema;
