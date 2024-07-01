@@ -70,8 +70,10 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
       path: 'academicDepartment',
       populate:{path: 'academicFaculty'}
     }), query).search(studentSearchableFields).filter().sort().paginate().fields()
+  
+    const meta = await studentQuery.countTotal()  
   const result = await studentQuery.modelQuery
-  return result
+  return {meta, result}
 };
 
 const getSingleStudentFromDB = async (id: string) => {
