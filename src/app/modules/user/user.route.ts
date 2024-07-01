@@ -12,7 +12,7 @@ import { upload } from '../../utils/sendImageToCloudinary';
 const router = express.Router();
 
 router.post('/create-student', 
-  auth(USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
 upload.single('file'),
 (req: Request, res: Response, next: NextFunction) => {
   // console.log(req.body);
@@ -25,7 +25,7 @@ upload.single('file'),
 
 router.post(
     '/create-faculty', 
-    auth(USER_ROLE.admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     upload.single('file'),
 (req: Request, res: Response, next: NextFunction) => {
   // console.log(req.body);
@@ -38,7 +38,7 @@ router.post(
   
 router.post(
     '/create-admin', 
-    auth(USER_ROLE.admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     upload.single('file'),
 (req: Request, res: Response, next: NextFunction) => {
   // console.log(req.body);
