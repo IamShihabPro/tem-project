@@ -76,8 +76,17 @@ const localGuradianSchema = new Schema<TLocalGuardian>({
 
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
-    id: { type: String, required: [true, 'ID is required'], unique: true },
-    user: {type: Schema.Types.ObjectId, required: [true, 'User id is required'], unique: true, ref: 'User'},
+    id: {
+      type: String,
+      required: [true, 'ID is required'],
+      unique: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id is required'],
+      unique: true,
+      ref: 'User',
+    },
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
@@ -125,9 +134,22 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String, default: '' },
-    admissionSemester: {type: Schema.Types.ObjectId, ref: 'AcademicSemester'},
-    isDeleted: { type: Boolean, default: false },
-    academicDepartment: { type: Schema.Types.ObjectId, ref: 'AcademicDepartment'},
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+    },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicFaculty',
+    },
   },
   {
     toJSON: {
@@ -136,27 +158,21 @@ const studentSchema = new Schema<TStudent, StudentModel>(
   },
 );
 
-// virtual
+//virtual
 studentSchema.virtual('fullName').get(function () {
   return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
 });
 
-
-
 // Query Middleware
-// find use
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-// findOne use
 studentSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
-
-// [ {$match: { isDeleted : {  $ne: : true}}}   ,{ '$match': { id: '123456' } } ]
 
 studentSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
@@ -168,12 +184,5 @@ studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
-
-//creating a custom instance method
-// studentSchema.methods.isUserExists = async function (id: string) {
-//   const existingUser = await Student.findOne({ id });
-
-//   return existingUser;
-// };
 
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);

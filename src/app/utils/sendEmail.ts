@@ -8,13 +8,13 @@ export const sendEmail = async (to: string, html: string) => {
     secure: config.NODE_ENV === 'production',
     auth: {
       // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-      user: 'smd898670@gmail.com',
-      pass: 'ioek cteb gwjy yuvl',
+      user: 'mezbaul@programming-hero.com',
+      pass: 'xfqj dshz wdui ymtb',
     },
   });
 
   await transporter.sendMail({
-    from: 'smd898670@gmail.com', // sender address
+    from: 'mezbaul@programming-hero.com', // sender address
     to, // list of receivers
     subject: 'Reset your password within ten mins!', // Subject line
     text: '', // plain text body

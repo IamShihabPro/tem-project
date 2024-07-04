@@ -1,32 +1,32 @@
-import cors from 'cors'
-import express, { Application, Request, Response, NextFunction } from 'express'
-import { StudentRoutes } from './app/modules/student/student.route'
-import { UserRoutes } from './app/modules/user/user.route'
-import globalErrorHandler from './app/middlewares/globalErrorHandler'
-import notFound from './app/middlewares/notFound'
-import router from './app/routes'
-import cookieParser from 'cookie-parser'
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express, { Application, Request, Response } from 'express';
+import globalErrorHandler from './app/middlewares/globalErrorhandler';
+import notFound from './app/middlewares/notFound';
+import router from './app/routes';
 
-const app: Application = express()
+const app: Application = express();
 
 //parsers
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors({origin: ['http://localhost:5173']}))
+app.use(express.json());
+app.use(cookieParser());
+
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
 
 // application routes
-app.use('/api/v1', router)
+app.use('/api/v1', router);
 
-// Not found
-app.use(notFound)
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hi Next Level Developer !');
+});
 
-const test = (req: Request, res: Response) => {
-  const a = 10
-  res.send(a)
-}
+app.use(globalErrorHandler);
 
-app.get('/', test)
+//Not Found
+app.use(notFound);
 
-app.use(globalErrorHandler)
-
-export default app
+export default app;
